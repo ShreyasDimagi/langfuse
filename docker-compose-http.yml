@@ -1,0 +1,30 @@
+# Make sure to update the credential placeholders with your own secrets.
+# We mark them with # CHANGEME in the file below.
+# In addition, we recommend to restrict inbound traffic on the host to langfuse-web (port 3000) and minio (port 9090) only.
+# All other components are bound to localhost (127.0.0.1) to only accept connections from the local machine.
+# External connections from other machines will not be able to reach these services directly.
+services:
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx/nginx_http.conf:/etc/nginx/nginx.conf:ro
+      - certbot-etc:/etc/letsencrypt
+      - certbot-web:/var/www/certbot
+    ports:
+      - "80:80"
+      - "443:443"
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - certbot-etc:/etc/letsencrypt
+      - certbot-web:/var/www/certbot
+    entrypoint: >
+      sh -c "certbot certonly --webroot
+             --webroot-path=/var/www/certbot
+             --email shandev@dimagi-associate.com
+             --agree-tos --no-eff-email
+             -d langfuse.openchatstudio.com && sleep 3600"
+
+volumes:
+  certbot-etc:
+  certbot-web:
