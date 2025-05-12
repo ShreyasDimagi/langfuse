@@ -23,7 +23,7 @@ services:
              --webroot-path=/var/www/certbot
              --email shandev@dimagi-associate.com
              --agree-tos --no-eff-email
-             -d langfuse.openchatstudio.com && sleep 3600"
+             -d langfuse.openchatstudio.com && sleep 120"
 
 volumes:
   certbot-etc:
