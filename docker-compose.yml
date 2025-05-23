@@ -68,6 +68,7 @@ services:
     depends_on: *langfuse-depends-on
     ports:
       - 3000:3000
+    env_file: .env
     environment:
       <<: *langfuse-worker-env
       NEXTAUTH_URL: https://langfuse.openchatstudio.com
